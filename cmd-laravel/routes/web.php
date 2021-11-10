@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\VisitasController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//al no indicar corchete, busca la clase __invoke del controlador
+Route::get('visitas/{contador?}', VisitasController::class);
