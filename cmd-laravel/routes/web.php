@@ -16,13 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-    //return "Hola mundo";
 });
 
-Route::get('/prueba', function () {
-    //return view('welcome');
-    return "Hola mundo";
-});
+
+//para verlo en el remoto: http://cmd-laravel.ddns.net/index.php/visitas
 
 //al no indicar corchete, busca la clase __invoke del controlador
 Route::get('visitas/{contador?}', VisitasController::class);
