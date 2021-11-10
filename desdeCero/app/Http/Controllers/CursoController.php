@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class CursoController extends Controller
 {
     //por convención la funcion de la página principal se llama index
-    public function index()
+    public function index() // --> ahora se llama esta función como __invoke()
     {
         return view("cursos.index");
     }

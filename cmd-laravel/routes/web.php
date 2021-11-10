@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    //return view('welcome');
+    return "Hola mundo";
 });
 
 //al no indicar corchete, busca la clase __invoke del controlador
