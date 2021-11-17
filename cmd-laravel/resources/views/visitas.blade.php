@@ -7,10 +7,10 @@
     <title>Contador visitas página</title>
 </head>
 <body>
-    <?php
+    @php
 
         echo $cookie_value > 0 ? "<h3>total visitas $cookie_value</h3>" : "<h3>Primera conexión!</h3>";
 
-    ?>
+    @endphp
 </body>
 </html>

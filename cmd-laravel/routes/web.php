@@ -23,3 +23,7 @@ Route::get('/', function () {
 
 //al no indicar corchete, busca la clase __invoke del controlador
 Route::get('visitas/{contador?}', VisitasController::class);
+
+Route::get('agenda', function () {
+    return view('agenda');
+});
