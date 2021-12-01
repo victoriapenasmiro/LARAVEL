@@ -31,45 +31,28 @@ Route::get('/', HomeController::class);
  * En caso de ser un controlador que contenga muchas rutas, se pone entre paréntesis y se envía el
  * nombre de la función que gestionará esa ruta
  * 
+ * 
+ * name para dar un nombre a la ruta y así poder invocarla según convención
  */
-Route::get('cursos', [CursoController::class, 'index']);
-
-// Route::get('cursos', function () {
-//     return "Bienvenido a la página cursos";
-// });
+// Route::get('cursos', [CursoController::class, 'index'])->name('cursos.index');
 
 // esta ruta tiene que estar antes de la siguiente porqué sino ejecutará la ruta cursos/{curso}
-Route::get('cursos/create', [CursoController::class, 'create']);
+// Route::get('cursos/create', [CursoController::class, 'create'])->name('cursos.create');
 
-// Route::get('cursos/create', function () {
-//     return "En esta página podrás crear un curso";
-// });
-
-
-//Route::get('cursos/{curso}', [CursoController::class, 'show']);
-
-/* En caso de qué tengamos muchas URL's bajo la URL principal /cursos/URL secundaria,
- podríamos declarlo pasando una variable de la siguiente forma.
- Si desde el front escribo la URL "http://localhost/LARAVEL/desdeCero/public/cursos/hola"
-
- Me retorna: Bienvenido al curso: hola;
-*/
-// Route::get('cursos/{curso}', function ($curso) {
-//     return "Bienvenido al curso: $curso";
-// });
+// Route::post('cursos', [CursoController::class, 'store'])->name('cursos.store');
 
 /* ruta con + de 1 variable
 al añadir una interrogación estamos indicando que esta segunda variable es opcional, qué puede estar en la URL o no
 Además, hay que añadir un valor por defecto a la variable en caso de que no se envíe
 */
+// Route::get('cursos/{id}/{categoria?}', [CursoController::class, 'show'])->name('cursos.show');
 
-Route::get('cursos/{curso}/{categoria?}', [CursoController::class, 'show']);
-// Route::get('cursos/{curso}/{categoria?}', function ($curso, $categoria = null) {
+// Route::get('cursos/{curso}', [CursoController::class, 'show'])->name('cursos.show');
 
-//     if ($categoria) {
-//         return "Bienvenido al curso: $curso de la categoria: $categoria";
-//     } else {
-//         return "Bienvenido al curso: $curso";
-//     }
-    
-// });
+// Route::get('cursos/{curso}/edit',[CursoController::class, 'edit'])->name('cursos.edit');
+
+// Route::put('cursos/{curso}',[CursoController::class, 'update'])->name('cursos.update');
+
+// Route::delete('cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy');
+
+Route::resource('cursos', CursoController::class);

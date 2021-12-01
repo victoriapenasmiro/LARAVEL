@@ -4,6 +4,6 @@
 
 @section('content') <!-- para enviar un bloque de código -->
 
-    <h1>Bienvenido a la página principal</h1>
+    <h1>Bienvenido a la página principal Hola</h1>
 
 @endsection

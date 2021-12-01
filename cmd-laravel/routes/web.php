@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\VisitasController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,16 @@ Route::get('visitas/{contador?}', VisitasController::class);
 
 Route::get('agenda', function () {
     return view('agenda');
+});
+
+Route::get('/formulario', function() {
+    return redirect("es/formulario");
+});
+
+Route::get('{lang}/formulario', [FormularioController::class, 'create'])->name('registro.create');
+
+Route::post('/formulario', [FormularioController::class, 'store'])->name('registro.store');
+
+Route::get('formularioclase', function () {
+    return view('formclase');
 });
