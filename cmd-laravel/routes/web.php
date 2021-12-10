@@ -29,7 +29,7 @@ Route::get('agenda', function () {
     return view('agenda');
 });
 
-Route::get('/formulario', function() {
+Route::get('/formulario', function () {
     return redirect("es/formulario");
 });
 
@@ -40,3 +40,14 @@ Route::post('/formulario', [FormularioController::class, 'store'])->name('regist
 Route::get('formularioclase', function () {
     return view('formclase');
 });
+
+
+//opción middelware 1
+Route::middleware('test')->get('pruebaMiddelware', function () {
+});
+
+//opción middelware 2
+Route::get('pruebaMiddelware2', function () {
+})->middleware(['test']);
+
+//en caso de que se tenga que pasar + de 1 middelware se pondría en una array (['test1', 'test2']);

@@ -23,7 +23,7 @@ use App\Http\Controllers\CursoController;
 //});
 
 // Opcion 3
-Route::get('/', HomeController::class);
+Route::get('/', HomeController::class)->name('home');
 
 /**
  * Cuando indicamos el nombre del controlador::class directamente, espera que solo
@@ -56,3 +56,11 @@ Además, hay que añadir un valor por defecto a la variable en caso de que no se
 // Route::delete('cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy');
 
 Route::resource('cursos', CursoController::class);
+
+//este tipo de ruta se utilizará cuando no se necesite conectar a una db, y que simplemente
+//se necesite pintar contenido estático
+Route::view('nosotros', 'welcome')->name('nosotros');
+
+Route::get('pruebaMiddelware', function () {})->middleware('test'); //si tuviera que pasar + de uno iría en una array ->middleware(['test1', 'test2']);
+
+//Route::middleware()
