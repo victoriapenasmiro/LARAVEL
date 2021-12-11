@@ -22,3 +22,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+Route::get('pruebaMiddelware', function () {})->middleware(['auth', 'prueba']);
+
+Route::get('no-autorizado', function () {
+    return "usuario no autorizado";
+});
