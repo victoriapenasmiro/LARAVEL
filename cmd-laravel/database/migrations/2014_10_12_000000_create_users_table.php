@@ -15,10 +15,11 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 40)->comment('No modificar el nombre de este campo, o dejará de funcionar la autenticación');;
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('dni', 9)->unique();
             $table->rememberToken();
             $table->timestamps();
         });

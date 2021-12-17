@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FormularioController;
+use App\Http\Controllers\PaisController;
 use App\Http\Controllers\VisitasController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,3 +52,5 @@ Route::get('pruebaMiddelware2', function () {
 })->middleware(['test']);
 
 //en caso de que se tenga que pasar + de 1 middelware se pondría en una array (['test1', 'test2']);
+
+Route::resource('paises', PaisController::class);
