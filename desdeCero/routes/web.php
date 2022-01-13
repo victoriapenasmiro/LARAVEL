@@ -31,31 +31,30 @@ Route::get('/', HomeController::class)->name('home');
  * En caso de ser un controlador que contenga muchas rutas, se pone entre paréntesis y se envía el
  * nombre de la función que gestionará esa ruta
  * 
- * 
  * name para dar un nombre a la ruta y así poder invocarla según convención
  */
-// Route::get('cursos', [CursoController::class, 'index'])->name('cursos.index');
+Route::get('cursos', [CursoController::class, 'index'])->name('cursos.index');
 
 // esta ruta tiene que estar antes de la siguiente porqué sino ejecutará la ruta cursos/{curso}
-// Route::get('cursos/create', [CursoController::class, 'create'])->name('cursos.create');
+Route::get('cursos/create', [CursoController::class, 'create'])->name('cursos.create');
 
-// Route::post('cursos', [CursoController::class, 'store'])->name('cursos.store');
+Route::post('cursos', [CursoController::class, 'store'])->name('cursos.store');
 
 /* ruta con + de 1 variable
 al añadir una interrogación estamos indicando que esta segunda variable es opcional, qué puede estar en la URL o no
 Además, hay que añadir un valor por defecto a la variable en caso de que no se envíe
 */
-// Route::get('cursos/{id}/{categoria?}', [CursoController::class, 'show'])->name('cursos.show');
+//Route::get('cursos/{id}/{categoria?}', [CursoController::class, 'show'])->name('cursos.show');
 
-// Route::get('cursos/{curso}', [CursoController::class, 'show'])->name('cursos.show');
+Route::get('cursos/{curso}', [CursoController::class, 'show'])->name('cursos.show');
 
-// Route::get('cursos/{curso}/edit',[CursoController::class, 'edit'])->name('cursos.edit');
+Route::get('cursos/{curso}/edit',[CursoController::class, 'edit'])->name('cursos.edit');
 
-// Route::put('cursos/{curso}',[CursoController::class, 'update'])->name('cursos.update');
+Route::put('cursos/{curso}',[CursoController::class, 'update'])->name('cursos.update');
 
-// Route::delete('cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy');
+Route::delete('cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy');
 
-Route::resource('cursos', CursoController::class);
+//Route::resource('cursos', CursoController::class); --idem que las rutas anteriores
 
 //este tipo de ruta se utilizará cuando no se necesite conectar a una db, y que simplemente
 //se necesite pintar contenido estático

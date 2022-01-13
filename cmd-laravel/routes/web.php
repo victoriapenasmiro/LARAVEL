@@ -42,7 +42,6 @@ Route::get('formularioclase', function () {
     return view('formclase');
 });
 
-
 //opción middelware 1
 Route::middleware('test')->get('pruebaMiddelware', function () {
 });
@@ -53,4 +52,4 @@ Route::get('pruebaMiddelware2', function () {
 
 //en caso de que se tenga que pasar + de 1 middelware se pondría en una array (['test1', 'test2']);
 
-Route::resource('paises', PaisController::class);
+Route::resource('{lang}/paises', PaisController::class)->parameters(["paises" => "pais"]);

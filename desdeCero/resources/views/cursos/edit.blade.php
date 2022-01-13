@@ -31,7 +31,7 @@
         </label>
         <label>
             Categoría<br>
-            <input type="text" name="categoria" value="{{ old('categoria', $curso->categoria) }}"><br>
+            <input type="text" name="categoria" value="{{ old('categoria', $curso->categoria)cu }}"><br>
             @error('categoria')
                 <small>*{{ $message }}</small>
                 <br><br>

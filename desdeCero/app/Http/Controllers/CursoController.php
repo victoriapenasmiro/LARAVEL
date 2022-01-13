@@ -45,7 +45,6 @@ class CursoController extends Controller
         // $curso->save();
 
         // asignación masiva para guardar un recurso en la db
-
         $curso = Curso::create($request->all());
 
         return redirect()->route('cursos.show', $curso->id);
