@@ -30,4 +30,4 @@ Route::get('no-autorizado', function () {
     return "usuario no autorizado";
 });
 
-Route::resource('/agenda', AgendaController::class)->middleware('auth');
+Route::resource('{lang}/agenda', AgendaController::class)->middleware('auth')->parameters(['agenda' => 'contacto']);

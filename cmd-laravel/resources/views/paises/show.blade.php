@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@section('title', 'Crear nuevo pais')
+@section('title', 'Pais' . $pais->id)
 
 @section('content')
 
@@ -21,6 +21,6 @@
     </form>
 
     <button><a href="{{ route('paises.edit', [$lang, $pais]) }}">Editar pais</a></button>
-    <button><a href={{ route('paises.index', $lang) }}>Volver a la lista de países</a></button>
+    <button><a href="{{ route('paises.index', $lang) }}"">Volver a la lista de países</a></button>
 
     @endsection

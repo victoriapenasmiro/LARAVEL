@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCurso extends FormRequest
+class StorePais extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class StoreCurso extends FormRequest
      */
     public function authorize()
     {
-        return true; //DEBE SER TRUE para evitar errores de autorización.
+        return true;
     }
 
     /**
@@ -24,16 +24,11 @@ class StoreCurso extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:10',
-            'description' => 'required|min:10',
-            'categoria' => 'required',
+            'nombre' => 'required|string|max:50',
+            'codigoISO3' => 'required|digits:3|integer',
+            'codigoISO2' => 'required|size:2|alpha',
+            'cod_numerico' => 'required|integer',
         ];
-    }
-
-    //para modificar en los mensaje de error el nombre del campo que se mostrará
-    public function attributes()
-    {
-        return [ 'name' => 'nombre del curso', ];
     }
 
     //para modificar el mensaje completo de error
@@ -41,7 +36,8 @@ class StoreCurso extends FormRequest
     public function messages()
     {
         return [
-            'description.required' => 'La descripción para dar de alta un nuevo curso es mandatory',
+            'codigoISO3.required' => 'CODIGO ISO3 obligatorio',
+            'codigoISO2.required' => 'CODIGO ISO2 obligatorio',
         ];
     }
 }

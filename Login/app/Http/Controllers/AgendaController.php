@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreContact;
+use App\Models\Contacto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -12,16 +14,18 @@ class AgendaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($lang)
     {
 
         // opcion 1
         // abort_unless(Gate::allows('test2'), 403);
 
         //opcion 2
-        $this->authorize('test2', 403);
+        $this->authorize('check-language', $lang); //de esta forma no requiere importar nada
 
-        return "estás en index";
+        $contactos = Contacto::orderBy('id')->get(); //Contacto::all()
+
+        return view("agenda.index", compact('contactos', 'lang'));
     }
 
     /**
@@ -29,9 +33,12 @@ class AgendaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($lang)
     {
-        //
+        $this->authorize('check-language', $lang);
+        $this->authorize('is-admin', 403);
+
+        return view("agenda.create", compact('lang'));
     }
 
     /**
@@ -40,9 +47,14 @@ class AgendaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreContact $request, $lang)
     {
-        //
+        $this->authorize('is-admin', 403);
+
+        // asignación masiva para guardar un recurso en la db
+        $contacto = Contacto::create($request->all());
+
+        return redirect()->route('agenda.show', compact('contacto', 'lang'));
     }
 
     /**
@@ -51,9 +63,10 @@ class AgendaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($lang, Contacto $contacto)
     {
-        //
+
+        return view("agenda.show", compact('contacto', 'lang'));
     }
 
     /**
@@ -62,9 +75,11 @@ class AgendaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($lang, Contacto $contacto)
     {
-        //
+        $this->authorize('is-admin', 403);
+
+        return view('agenda.edit', compact('contacto', 'lang'));
     }
 
     /**
@@ -74,9 +89,16 @@ class AgendaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreContact $request, $lang, Contacto $contacto)
     {
-        //
+        $this->authorize('is-admin', 403);
+
+        $contacto->update($request->all());
+
+        echo "<h3 style='color:green;text-align: center;'>Contacto $contacto->id actualizado</h3>";
+        $contactos = Contacto::orderBy('id')->get();
+
+        return view("agenda.index", compact('contactos', 'lang'));
     }
 
     /**
@@ -85,8 +107,15 @@ class AgendaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($lang, Contacto $contacto)
     {
-        //
+        $this->authorize('is-admin', 403);
+
+        $contacto->delete();
+
+        echo "<h3 style='color:green;text-align: center;'>Contacto $contacto->nombre eliminado</h3>";
+        $contactos = Contacto::orderBy('id')->get();
+
+        return view("agenda.index", compact('contactos', 'lang'));
     }
 }

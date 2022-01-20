@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
@@ -25,7 +26,18 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('test2', function($user){
+        Gate::define('is-admin', function($user){
+            return $user->email === 'mpenas@cifpfbmoll.eu' ? true : false;
+        });
+
+        Gate::define('check-language', function($user, $locale){
+
+            if (! in_array($locale, ['en', 'es', 'ca'])) {
+                abort(403);
+            }
+
+            App::setLocale($locale);
+
             return true;
         });
     }

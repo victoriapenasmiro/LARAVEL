@@ -1,9 +1,19 @@
 @extends('layouts.base')
 @section('title', 'Listados de Paises')
 
+@section('idiomas')
+
+¡Cambia el idioma!
+<a href={{route('paises.index', 'en')}}>EN</a>
+<a href={{route('paises.index', 'ca')}}>CA</a>
+<a href={{route('paises.index', 'es')}}>ES</a>
+
+@endsection
+
 @section('content')
 
-    <h1 class="my-5 text-center">@lang('paises.listado') de @lang('paises.pais')</h1>
+    {{-- dos opsibles formas de traduccion --}}
+    <h1 class="mb-5 text-center">{{ __('paises.listado')}} de @lang('paises.pais')</h1>
 
     <a href="{{ route('paises.create', $lang) }}"
         style="padding: 10px; border: 2px solid black; background: grey; color:white; display:block; width: fit-content; margin: 0 auto; margin-bottom: 30px;">Crear

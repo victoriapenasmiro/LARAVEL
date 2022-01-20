@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePais;
 use App\Models\Pais;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -45,17 +46,10 @@ class PaisController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $lang)
+    public function store(StorePais $request, $lang)
     {
         //recupero el lang
         App::setLocale($lang);
-
-        $request->validate([
-            'nombre' => 'required|string|max:50',
-            'codigoISO3' => 'required|size:3|alpha',
-            'codigoISO2' => 'required|size:2|alpha',
-            'cod_numerico' => 'required|integer',
-        ]);
 
         // asignación masiva para guardar un recurso en la db
         $pais = Pais::create($request->all());
@@ -94,19 +88,12 @@ class PaisController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $lang, Pais $pais)
+    public function update(StorePais $request, $lang, Pais $pais)
 
     {
         //recupero el lang
         App::setLocale($lang);
-
-        $request->validate([
-            'nombre' => 'required|string|max:50',
-            'codigoISO3' => 'required|size:3|alpha',
-            'codigoISO2' => 'required|size:2|alpha',
-            'cod_numerico' => 'required|integer',
-        ]);
-
+        
         //actualización por asignación masiva
         $pais->update($request->all());
 

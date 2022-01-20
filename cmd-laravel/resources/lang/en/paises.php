@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'pais'     => 'country',
+    'pais' => 'country',
     'listado' => 'list',
 ];
