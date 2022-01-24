@@ -17,6 +17,8 @@ class AgendaController extends Controller
     public function index($lang)
     {
 
+        $is_admin = new Contacto;
+
         // opcion 1
         // abort_unless(Gate::allows('test2'), 403);
 
@@ -25,7 +27,7 @@ class AgendaController extends Controller
 
         $contactos = Contacto::orderBy('id')->get(); //Contacto::all()
 
-        return view("agenda.index", compact('contactos', 'lang'));
+        return view("agenda.index", compact('contactos', 'lang', 'is_admin'));
     }
 
     /**
@@ -35,10 +37,12 @@ class AgendaController extends Controller
      */
     public function create($lang)
     {
-        $this->authorize('check-language', $lang);
-        $this->authorize('is-admin', 403);
+        $is_admin = new Contacto;
 
-        return view("agenda.create", compact('lang'));
+        $this->authorize('check-language', $lang);
+        $this->authorize('create', $is_admin, 403);
+
+        return view("agenda.create", compact('lang', 'is_admin'));
     }
 
     /**
@@ -49,12 +53,31 @@ class AgendaController extends Controller
      */
     public function store(StoreContact $request, $lang)
     {
-        $this->authorize('is-admin', 403);
+        $is_admin = new Contacto;
 
-        // asignación masiva para guardar un recurso en la db
-        $contacto = Contacto::create($request->all());
+        $this->authorize('check-language', $lang);
+        $this->authorize('create', $is_admin, 403);
 
-        return redirect()->route('agenda.show', compact('contacto', 'lang'));
+        //Retrieving An Input Value
+        //$request->input('nombre'); 
+
+        $contacto = Contacto::withTrashed()->where('tlf', '=', $request->input('tlf'))->first();
+
+        if ($contacto !== null && $contacto->trashed()) {
+            $contacto->restore();
+
+            //update name if it's different
+            if ($contacto->nombre != $request->input('nombre')) {
+                $contacto->nombre = $request->input('nombre');
+                $contacto->save();
+            }
+        } else {
+
+            // asignación masiva para guardar un recurso en la db
+            $contacto = Contacto::create($request->all());
+        }
+
+        return redirect()->route('agenda.show', compact('contacto', 'lang', 'is_admin'));
     }
 
     /**
@@ -65,6 +88,7 @@ class AgendaController extends Controller
      */
     public function show($lang, Contacto $contacto)
     {
+        $this->authorize('check-language', $lang);
 
         return view("agenda.show", compact('contacto', 'lang'));
     }
@@ -77,7 +101,9 @@ class AgendaController extends Controller
      */
     public function edit($lang, Contacto $contacto)
     {
-        $this->authorize('is-admin', 403);
+
+        $this->authorize('check-language', $lang);
+        $this->authorize('update', $contacto, 403);
 
         return view('agenda.edit', compact('contacto', 'lang'));
     }
@@ -91,14 +117,22 @@ class AgendaController extends Controller
      */
     public function update(StoreContact $request, $lang, Contacto $contacto)
     {
-        $this->authorize('is-admin', 403);
+
+        $this->authorize('check-language', $lang);
+        $this->authorize('update', $contacto, 403);
 
         $contacto->update($request->all());
 
         echo "<h3 style='color:green;text-align: center;'>Contacto $contacto->id actualizado</h3>";
         $contactos = Contacto::orderBy('id')->get();
 
-        return view("agenda.index", compact('contactos', 'lang'));
+        return view("agenda.index", [
+            'contactos' => $contactos,
+            'lang' => $lang,
+            'is_admin' => $contacto,
+        ]);
+
+        //compact('contactos', 'lang')
     }
 
     /**
@@ -109,13 +143,14 @@ class AgendaController extends Controller
      */
     public function destroy($lang, Contacto $contacto)
     {
-        $this->authorize('is-admin', 403);
+
+        $is_admin = new Contacto;
+
+        $this->authorize('check-language', $lang);
+        $this->authorize('delete', $is_admin, 403);
 
         $contacto->delete();
 
-        echo "<h3 style='color:green;text-align: center;'>Contacto $contacto->nombre eliminado</h3>";
-        $contactos = Contacto::orderBy('id')->get();
-
-        return view("agenda.index", compact('contactos', 'lang'));
+        return redirect()->route('agenda.index', compact('lang', 'is_admin'));
     }
 }

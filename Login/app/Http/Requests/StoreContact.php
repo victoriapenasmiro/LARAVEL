@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Contacto;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreContact extends FormRequest
 {
@@ -23,9 +25,15 @@ class StoreContact extends FormRequest
      */
     public function rules()
     {
+        $contacto = Contacto::withTrashed()->where('tlf', '=', $this->input('tlf'))->first();
+
+        if ($contacto !== null && $contacto->trashed()) {
+            return [];
+        }
+
         return [
-            'nombre'=> 'required|string',
-            'tlf' => 'required|string',
+            'nombre' => 'required|string',
+            'tlf' => ['required', 'string', Rule::unique('contactos')->ignore($this->route('agenda'))],
         ];
     }
 }

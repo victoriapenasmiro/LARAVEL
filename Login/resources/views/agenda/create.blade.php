@@ -15,7 +15,7 @@
         </div>
     @endif
 
-    <form action="{{ route('agenda.store', $lang) }}" method="POST">
+    <form action="{{ route('agenda.store', [$lang]) }}" method="POST">
 
         {{-- genero token para poder enviar el formulario. Directoiva obligatoria en Laravel --}}
         @csrf
