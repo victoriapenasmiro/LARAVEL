@@ -1,4 +1,5 @@
 window.onload = function () {
+
     var form = null;
     var formMethod = null;
 
@@ -58,20 +59,28 @@ window.onload = function () {
             });
 
             //si el method no es DELETE, funcionará, sino dará error porqué el obj ya no existe
-            if (formMethod != 'DELETE') {
+            if (formMethod != "DELETE") {
                 window.location.href =
-                "http://localhost/LARAVEL/proyectoAPI/public/" +
-                responseData.id;
-
+                    "http://localhost/LARAVEL/proyectoAPI/public/" +
+                    responseData.id;
             } else {
-                alert('Centro eliminado:' + JSON.stringify(responseData));
+                alert("Centro eliminado:" + JSON.stringify(responseData));
                 window.location.href = "/LARAVEL/proyectoAPI/public/";
             }
-
         } catch (error) {
             console.error(error);
         }
     }
+
+    document.getElementById("allCentros").addEventListener("click", () => {
+        document.getElementById("irInicio").classList.remove("d-none");
+        document.getElementById("allCentros").classList.add("d-none");
+    });
+
+    document.getElementById("irInicio").addEventListener("click", () => {
+        document.getElementById("allCentros").classList.remove("d-none");
+        document.getElementById("irInicio").classList.add("d-none");
+    });
 };
 
 /**
@@ -134,11 +143,14 @@ async function postFormDataAsJson({ url, formData, formMethod }) {
 /* Ajax con javascript */
 function api_js_index() {
     console.log("Entrando en la función AJAX - index");
+
+    //recupero datos
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function () {
         //vacío el contenido
         document.getElementById("response").innerHTML = "";
-        //añado la tabla
+
+        //añado la tabla con appendChild, ya que como innerHTML lo detecta como object y no renderiza
         document
             .getElementById("response")
             .appendChild(crearTable(JSON.parse(xhttp.responseText)));
@@ -259,24 +271,16 @@ function showCentro(id) {
 
 /**
  * Recuperamos el centro educativo con el id indicado
- * 
- * @param {integer} id 
+ *
+ * @param {integer} id
  */
 function getCentro(id) {
     console.log("Entrando en la función AJAX - show");
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function () {
-        alert(xhttp.responseText);
-
-        console.log(JSON.parse(xhttp.responseText));
-
-        //vacío el contenido
-        document.getElementById("response").innerHTML = "";
-        //añado la tabla
-        document
-            .getElementById("response")
-            .appendChild(crearTable(JSON.parse(xhttp.responseText)));
-
+        document.getElementById("response").innerHTML = showCentroHtml(
+            JSON.parse(xhttp.responseText)
+        );
     };
 
     //método GET, sin parámetros ejecuta el método index del controller
@@ -285,8 +289,30 @@ function getCentro(id) {
     xhttp.send();
 }
 
-function showCentroHtml(){
+function showCentroHtml(centro) {
+    let htmlList = "";
+    htmlList += `<h1 class='mb-5 text-center'>Centro ${centro.nombre}</h1>`;
+    htmlList += `<ul>
+        <li>Nombre: ${centro.nombre}</li>
+        <li>Código asd: ${centro.cod_asd}</li>
+        <li>Fecha inicio: ${centro.fec_comienzo_actividad}</li>
+        <li>Radio: ${centro.opcion_radio}</li>
+        <li>Dispone de guardería: ${centro.guarderia}</li>
+        <li>Categoría: ${centro.categoria}</li>
+    </ul>`;
 
+    // con fetch: <form action="{{ '/LARAVEL/proyectoAPI/public/api/apirest/' . centro.id }}" id="deleteForm"
+    // style="display:inline-block">
+
+    // con AJAX
+    htmlList += `<div class="mb-3"><form onsubmit="api_js_delete(${centro.id})" id="deleteForm" style="display:inline-block">
+        <button type="submit" class="btn btn-danger mr-2">Eliminar</button>
+    </form>`;
+
+    htmlList += `<a href="./${centro.id}" class="btn btn-success">Editar centro</a></div>`;
+    // htmlList += `<a href="/LARAVEL/proyectoAPI/public/" class="btn btn-primary">Volver</a>`;
+
+    return htmlList;
 }
 
 /**
