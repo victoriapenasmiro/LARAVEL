@@ -1,5 +1,4 @@
 window.onload = function () {
-
     var form = null;
     var formMethod = null;
 
@@ -140,7 +139,9 @@ async function postFormDataAsJson({ url, formData, formMethod }) {
     return response.json();
 }
 
-/* Ajax con javascript */
+/**
+ * Recuperamos todos los registros de la base de datos con AJAX
+ */
 function api_js_index() {
     console.log("Entrando en la función AJAX - index");
 
@@ -161,13 +162,12 @@ function api_js_index() {
 
     //método GET, sin parámetros ejecuta el método index del controller
     xhttp.open("GET", "api/apirest", true);
-    // xhttp.setRequestHeader('Content-Type', 'application/vnd.api+json');
-    // xhttp.setRequestHeader('Accept', 'application/vnd.api+json');
     xhttp.send();
 }
 
 /**
- * Render a table with centre data in index view
+ * Contrucción de un elemento <table> con todos los registros de la base de datos
+ * recuperados desde el método index()
  *
  * @param {Object} centros
  * @returns table html
@@ -199,7 +199,7 @@ function crearTable(centros) {
         aux = document.createElement("tr");
         let verEditar = document.createElement("td");
         verEditar.innerHTML =
-            "<button type='button' onclick='getCentro(" +
+            "<button type='button' onclick='showCentro(" +
             centro.id +
             ")' class='btn btn-warning'>Ver</button>";
         aux.appendChild(verEditar);
@@ -221,9 +221,9 @@ function crearTable(centros) {
 }
 
 /**
- * POST insert with XMLHttpRequest()
- * It's necesary .preventDefault() when submit
- * es + limpio con fetch
+ * Inserción de un registro a la base de datos por POST con ajax
+ * Es necesario prevenir el comportamiento por defecto del submit
+ * al enviar el form con .preventDefault()
  *
  * @param {Object} form form html element
  */
@@ -253,6 +253,16 @@ function api_js_create(form) {
     xhttp.open("POST", "/LARAVEL/proyectoAPI/public/api/apirest", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhttp.onload = function () {
+        //si el status no es 200 se ha producido un error
+        if (xhttp.status != 200) {
+            alert(
+                "Se ha producido un error en al intentar conectar. Error status: " +
+                    xhttp.status
+            );
+
+            return;
+        }
+
         window.location.href = JSON.parse(xhttp.responseText).id;
         console.log(xhttp.responseText); //parseado se puede iterar
     };
@@ -261,7 +271,7 @@ function api_js_create(form) {
 }
 
 /**
- * Change windows.location to render show view
+ * Modificamos la URL para abrir el registro con id especifico
  *
  * @param {int} id $id del centro
  */
@@ -278,6 +288,16 @@ function getCentro(id) {
     console.log("Entrando en la función AJAX - show");
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function () {
+        //si el status no es 200 se ha producido un error
+        if (xhttp.status != 200) {
+            alert(
+                "Se ha producido un error en al intentar conectar. Error status: " +
+                    xhttp.status
+            );
+
+            return;
+        }
+
         document.getElementById("response").innerHTML = showCentroHtml(
             JSON.parse(xhttp.responseText)
         );
@@ -289,6 +309,12 @@ function getCentro(id) {
     xhttp.send();
 }
 
+/**
+ * Construcción de una lista con los datos del registro
+ *
+ * @param {Object} centro
+ * @returns devuelve una lista <ul> con los detalles del centro enviado
+ */
 function showCentroHtml(centro) {
     let htmlList = "";
     htmlList += `<h1 class='mb-5 text-center'>Centro ${centro.nombre}</h1>`;
@@ -316,7 +342,7 @@ function showCentroHtml(centro) {
 }
 
 /**
- * Ajax PUT method to update an object
+ * Actualización de un registro con AJAX
  *
  * @param {Object} form
  * @param {int} centroId
@@ -351,6 +377,16 @@ function api_js_edit(form, centroId) {
     );
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhttp.onload = function () {
+        //si el status no es 200 se ha producido un error
+        if (xhttp.status != 200) {
+            alert(
+                "Se ha producido un error en al intentar conectar. Error status: " +
+                    xhttp.status
+            );
+
+            return;
+        }
+
         window.location.href =
             "http://localhost/LARAVEL/proyectoAPI/public/" + centroId;
         console.log(xhttp.responseText); //parseado se puede iterar
@@ -360,7 +396,7 @@ function api_js_edit(form, centroId) {
 }
 
 /**
- * Ajax DELETE method to remove an object
+ * Eliminación de un registro con AJAX
  *
  * @param {int} centroId
  */
@@ -375,6 +411,16 @@ function api_js_delete(centroId) {
     );
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhttp.onload = function () {
+        //si el status no es 200 se ha producido un error
+        if (xhttp.status != 200) {
+            alert(
+                "Se ha producido un error en al intentar conectar. Error status: " +
+                    xhttp.status
+            );
+
+            return;
+        }
+
         alert("registro eliminado: " + xhttp.responseText);
         window.location.href = "/LARAVEL/proyectoAPI/public/";
     };

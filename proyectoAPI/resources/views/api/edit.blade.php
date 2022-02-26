@@ -6,9 +6,10 @@
     <h1 class="mb-5 text-center">Editar centro {{ $centro->nombre }}</h1>
 
     {{-- llamando al API directamente <form action="{{ route('apirest.update', $centro->id) }}" method="POST" id="editForm"> --}}
-    {{-- con ajax: <form onsubmit="api_js_edit(this, {{$centro->id}})" id="editForm"> --}}
+    {{-- AJAX --}}
+    <form onsubmit="api_js_edit(this, {{ $centro->id }})" id="editForm">
 
-    <form action="{{ '/LARAVEL/proyectoAPI/public/api/apirest/' . $centro->id }}" id="editForm">
+        {{-- <form action="{{ '/LARAVEL/proyectoAPI/public/api/apirest/' . $centro->id }}" id="editForm"> --}}
 
         {{-- token --}}
         @csrf

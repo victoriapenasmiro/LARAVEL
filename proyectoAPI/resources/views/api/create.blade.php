@@ -6,8 +6,10 @@
     <h1 class="mb-5 text-center">Nuevo centro</h1>
 
     {{-- Para hacerlo llamandi al api del controlador directamente: <form action="{{ route('apirest.store') }}" method="POST" enctype="multipart/form-data"> --}}
-    {{-- Para hacerlo con xhttp: <form onsubmit="api_js_create(this)" id="createForm"> --}}
-    <form action="/LARAVEL/proyectoAPI/public/api/apirest" id="createForm">
+    {{-- AJAX --}}
+        <form onsubmit="api_js_create(this)" id="createForm">
+    {{-- fetch --}}
+    {{-- <form action="/LARAVEL/proyectoAPI/public/api/apirest" id="createForm"> --}}
 
         {{-- genero token para poder enviar el formulario. Directoiva obligatoria en Laravel --}}
         @csrf
