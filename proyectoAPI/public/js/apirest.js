@@ -60,7 +60,7 @@ window.onload = function () {
             //si el method no es DELETE, funcionará, sino dará error porqué el obj ya no existe
             if (formMethod != "DELETE") {
                 window.location.href =
-                    "http://localhost/LARAVEL/proyectoAPI/public/" +
+                    "/LARAVEL/proyectoAPI/public/" +
                     responseData.id;
             } else {
                 alert("Centro eliminado:" + JSON.stringify(responseData));
@@ -388,7 +388,7 @@ function api_js_edit(form, centroId) {
         }
 
         window.location.href =
-            "http://localhost/LARAVEL/proyectoAPI/public/" + centroId;
+            "/LARAVEL/proyectoAPI/public/" + centroId;
         console.log(xhttp.responseText); //parseado se puede iterar
     };
 
