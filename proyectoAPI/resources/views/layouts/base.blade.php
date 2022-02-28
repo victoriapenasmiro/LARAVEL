@@ -11,7 +11,7 @@
         @include('layouts.footer')
 
     </div>
-    <script src="http://localhost/LARAVEL/proyectoAPI/public/js/apirest.js"></script>
+    <script src="/js/apirest.js"></script>
 </body>
 
 </html>
