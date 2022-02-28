@@ -161,7 +161,7 @@ function api_js_index() {
     };
 
     //método GET, sin parámetros ejecuta el método index del controller
-    xhttp.open("GET", "api/apirest", true);
+    xhttp.open("GET", "./api/apirest", true);
     xhttp.send();
 }
 
