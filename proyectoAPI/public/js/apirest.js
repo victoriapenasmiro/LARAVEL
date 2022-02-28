@@ -161,7 +161,7 @@ function api_js_index() {
     };
 
     //método GET, sin parámetros ejecuta el método index del controller
-    xhttp.open("GET", "./api/apirest", true);
+    xhttp.open("GET", "/api/apirest", true);
     xhttp.send();
 }
 
@@ -199,7 +199,7 @@ function crearTable(centros) {
         aux = document.createElement("tr");
         let verEditar = document.createElement("td");
         verEditar.innerHTML =
-            "<button type='button' onclick='showCentro(" +
+            "<button type='button' onclick='getCentro(" +
             centro.id +
             ")' class='btn btn-warning'>Ver</button>";
         aux.appendChild(verEditar);
@@ -250,7 +250,7 @@ function api_js_create(form) {
     let params = urlEncodedDataPairs.toString().replaceAll(",", "&");
 
     const xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/LARAVEL/proyectoAPI/public/api/apirest", true);
+    xhttp.open("POST", "api/apirest", true); ///LARAVEL/proyectoAPI/public/
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhttp.onload = function () {
         //si el status no es 200 se ha producido un error
@@ -335,7 +335,7 @@ function showCentroHtml(centro) {
         <button type="submit" class="btn btn-danger mr-2">Eliminar</button>
     </form>`;
 
-    htmlList += `<a href="./${centro.id}" class="btn btn-success">Editar centro</a></div>`;
+    htmlList += `<a href="/${centro.id}/edit" class="btn btn-success">Editar centro</a></div>`;
     // htmlList += `<a href="/LARAVEL/proyectoAPI/public/" class="btn btn-primary">Volver</a>`;
 
     return htmlList;
@@ -372,7 +372,7 @@ function api_js_edit(form, centroId) {
     const xhttp = new XMLHttpRequest();
     xhttp.open(
         "PUT",
-        "/LARAVEL/proyectoAPI/public/api/apirest/" + centroId,
+        "/api/apirest/" + centroId, ///LARAVEL/proyectoAPI/public
         true
     );
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -388,7 +388,7 @@ function api_js_edit(form, centroId) {
         }
 
         window.location.href =
-            "/LARAVEL/proyectoAPI/public/" + centroId;
+            "/" + centroId; ///LARAVEL/proyectoAPI/public
         console.log(xhttp.responseText); //parseado se puede iterar
     };
 
@@ -406,7 +406,7 @@ function api_js_delete(centroId) {
     const xhttp = new XMLHttpRequest();
     xhttp.open(
         "DELETE",
-        "/LARAVEL/proyectoAPI/public/api/apirest/" + centroId,
+        "/api/apirest/" + centroId, ///LARAVEL/proyectoAPI/public
         true
     );
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -422,7 +422,7 @@ function api_js_delete(centroId) {
         }
 
         alert("registro eliminado: " + xhttp.responseText);
-        window.location.href = "/LARAVEL/proyectoAPI/public/";
+        window.location.href = "/"; ///LARAVEL/proyectoAPI/public/
     };
 
     xhttp.send();

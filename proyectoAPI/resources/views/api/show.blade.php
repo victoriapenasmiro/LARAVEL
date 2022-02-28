@@ -14,11 +14,11 @@
     </ul>
 
     {{-- <form action="{{ route('centros.destroy', $centro) }}" method="POST" style="display:inline;"> --}}
-    <form action="{{ '/LARAVEL/proyectoAPI/public/api/apirest/' . $centro->id }}" id="deleteForm"
-        style="display:inline-block">
+    {{-- <form action="{{ '/LARAVEL/proyectoAPI/public/api/apirest/' . $centro->id }}" id="deleteForm"
+        style="display:inline-block"> --}}
 
-        {{-- con AJAX --}}
-        {{-- <form onsubmit="api_js_delete({{ $centro->id }})" id="deleteForm" style="display:inline-block"> --}}
+    {{-- con AJAX --}}
+    <form onsubmit="api_js_delete({{ $centro->id }})" id="deleteForm" style="display:inline-block">
         @csrf
         @method('delete')
 
